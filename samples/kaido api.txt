@@ -1,0 +1,37 @@
+#########
+# Watch #
+#########
+/ajax/episode/list/<movieId>
+/ajax/episode/servers?episodeId=
+/ajax/episode/sources?id=
+
+#######
+# App #
+#######
+/ajax/notification/latest
+/ajax/continue-watch/home
+/ajax/user/settings?action=quick
+/ajax/watch-list/mal-import
+/ajax/login-state
+/ajax/login
+/ajax/register
+/ajax/reset-password
+/ajax/send-verification-email
+/ajax/schedule/widget?tzOffset=
+/ajax/vote/info/
+/ajax/watch-list/info/
+/ajax/character/list/
+/ajax/movie/search/suggest?keyword=
+/ajax/watch-list/add
+/ajax/vote/submit
+/ajax/continue-watch/remove
+/ajax/notification/seen-all
+/ajax/movie/qtip/
+/ajax/user/settings
+/ajax/movie/mangas/
+
+###############
+# Rapid-Cloud #
+###############
+https://rapid-cloud.co/embed-2/v2/e-1/uABQINXDzTl8
+https://rapid-cloud.co/embed-2/v2/e-1/getSources?id=uABQINXDzTl8

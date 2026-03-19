@@ -1,0 +1,6 @@
+aiohttp
+ffmpeg-python
+beautifulsoup4
+
+# testing purposes
+requests
