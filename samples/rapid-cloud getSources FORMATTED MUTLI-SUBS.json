@@ -1,0 +1,54 @@
+{
+    "sources": [{
+        "file": "https://stormshade84.live/_v7/f64656b130dd95df30d5ea4fb357d1200f186b983f82e0736f5ea30b02434272512535381d445b1d4b14b9adae3d7234784a0e13d16d3b1bd0c868d53e445beaa1d1b0b492115ac3e0ae5af61590ae3ce25cbeac357242dbd30a2b68c106fc2dcbec80dd103239581d6bb5300ee3531f0b28ece0c4655b99c8bc25c76adb6cb2/master.m3u8",
+        "type": "hls"
+    }],
+    "tracks": [{
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/chi-9.vtt",
+        "label": "Chinese - Simplified",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/chi-10.vtt",
+        "label": "Chinese - Traditional",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/f942b656739ddac591e2b92f230bf4d8/f942b656739ddac591e2b92f230bf4d8.vtt",
+        "label": "English - English",
+        "kind": "captions",
+        "default": true
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/ind-5.vtt",
+        "label": "Indonesian",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/jpn-3.vtt",
+        "label": "Japanese",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/jpn-4.vtt",
+        "label": "Japanese - SDH",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/may-6.vtt",
+        "label": "Malay",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/tha-7.vtt",
+        "label": "Thai",
+        "kind": "captions"
+    }, {
+        "file": "https://mgstatics.xyz/subtitle/7b858df7b965762756c5d927b3b5fb40/vie-8.vtt",
+        "label": "Vietnamese",
+        "kind": "captions"
+    }],
+    "encrypted": false,
+    "intro": {
+        "start": 48,
+        "end": 115
+    },
+    "outro": {
+        "start": 1235,
+        "end": 1300
+    },
+    "server": 4
+}
