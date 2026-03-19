@@ -8,7 +8,6 @@ import ffmpeg
 
 import hls_tools
 import kaido_tools
-from megacloud import Megacloud
 
 # just a simple ansi terminal color here, it's rather crude
 COLORS: dict = {
@@ -37,6 +36,8 @@ COLORS: dict = {
     "CROSSED": "\033[9m",
     "END": "\033[0m",
 }
+
+BASE_LINK = kaido_tools.BASE_LINK
 
 MAX_CONCURRENT_DOWNLOADS: int = 5
 semaphore = asyncio.Semaphore(MAX_CONCURRENT_DOWNLOADS)
@@ -107,15 +108,13 @@ async def test() -> None:
         await asyncio.gather(*tasks)
 
 async def main() -> None:
-    HIANIME_BASE = "https://hianime.to"
-
-    parser = argparse.ArgumentParser(prog="hianime-dl")
+    parser = argparse.ArgumentParser(prog="kaido-dl")
     parser.add_argument("link")
     parser.add_argument("-q", "--quality", type=int, default=2)
     #parser.add_argument("episode", type=int)
 
 
-    # For now, I'll make it only take the episode link as argument, download HD-1 and eng subs.
+    # For now, I'll make it only take the episode link as argument, download Vidstreaming and eng subs.
     # I'll add more stuff later on (or never)
     args = parser.parse_args()
     episode_url = args.link
@@ -123,35 +122,38 @@ async def main() -> None:
 
     episodeId = episode_url[episode_url.find('=')+1:] # crude way of getting the episodeId from link
 
-    servers_html = await async_fetch_json(HIANIME_BASE+'/ajax/v2/episode/servers?episodeId='+str(episodeId))
+    servers_html = await async_fetch_json(BASE_LINK+'/ajax/episode/servers?episodeId='+str(episodeId))
     servers_html = servers_html.get("html")
-    servers, episode  = hianime_tools.parse_servers(servers_html)
+    servers, episode  = kaido_tools.parse_servers(servers_html)
     episode = "EP"+str('{:02d}'.format(int(episode))) # episode count, like EP12
     
     SUB = servers.get("SUB")
     if SUB == None:
         SUB = servers.get("RAW")
-    HD_1 = SUB.get("HD-1")
+    vidstreaming = SUB.get("Vidstreaming")
     
-    if HD_1 == None:
-        print("HD-1 is not available, it's probably a new upload. HD-2 are slow and often block auto download. Please wait a while, HD-1 might get uploaded soon")
+    if vidstreaming == None:
+        print("Vidstreaming is not available, it's probably a new upload. HD-2 are slow and often block auto download. Please wait a while, Vidstreaming might get uploaded soon")
         exit()
     
-    embed_link = await async_fetch_json(HIANIME_BASE+"/ajax/v2/episode/sources?id="+str(HD_1))
+    embed_link = await async_fetch_json(BASE_LINK+"/ajax/episode/sources?id="+str(vidstreaming))
     embed_link = embed_link.get("link")
+    embed_link = embed_link[len("https://rapid-cloud.co/embed-2/v2/e-1/"):embed_link.find('?')]
+    embed_link = "https://rapid-cloud.co/embed-2/v2/e-1/getSources?id=" + embed_link
+    print(embed_link)
 
-    m = Megacloud(embed_link)
-    megacloud_source = await m.extract()
 
 
-
-    m3u8_link    = megacloud_source.get("sources")[0].get("file")
-    #eng_sub_link = megacloud_source.get("tracks")[0].get("file") # overhauled
+    rapidcloud_source    = await async_fetch_json(embed_link, headers={"referer":"https://rapid-cloud.co/"})
+    m3u8_link    = rapidcloud_source.get("sources")[0].get("file")
+    print(m3u8_link)
+    
+    #eng_sub_link = rapidcloud_source.get("tracks")[0].get("file") # overhauled
     eng_sub_link = None
 
-    megacloud_subs_dict = megacloud_source.get("tracks")
-    for i in megacloud_subs_dict:
-        if(i.get("label") == "English"):
+    rapidcloud_subs_dict = rapidcloud_source.get("tracks")
+    for i in rapidcloud_subs_dict:
+        if("English" in i.get("label")):
             eng_sub_link = i.get("file")
             break
     if(eng_sub_link == None):
@@ -163,8 +165,6 @@ async def main() -> None:
     m3u8_link = m3u8_link[:m3u8_link.rfind('/')]+f"/index-f{args.quality}-v1-a1.m3u8" # this need to be fixed later, some show doesn't have format, only index-v1-a1.m3u8
     m3u8 = await async_fetch_http(m3u8_link)
     m3u8 = m3u8.decode()
-
-    print(f"{eng_sub_link} {m3u8_link} {episode}")
 
     # download eng sub
     if(eng_sub_link != None):
