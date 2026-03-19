@@ -3,6 +3,6 @@ A fork of my hianime_stuff, since kaido.to backend are literally the same as hia
 
 ## things getting done
 - [ ] downloder.py
-- [ ] getInfo.py
+- [x] getInfo.py
 - [x] listEp.py
 - [x] search.py

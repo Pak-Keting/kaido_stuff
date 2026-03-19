@@ -30,7 +30,7 @@ if(span_schedule_date == None):
 raw_time_str = span_schedule_date.get("data-value")
 
 
-dt = datetime.strptime(raw_time_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+dt = datetime.strptime(raw_time_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
 local_dt = dt.astimezone()
 now = datetime.now(timezone.utc).astimezone()
 
