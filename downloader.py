@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import argparse
 import asyncio
+import base64 as b64
 
 import aiohttp
 import ffmpeg
@@ -162,7 +163,8 @@ async def main() -> None:
     print("downloading episode: "+episode)
     print("selected quality   : "+str(quality))
     print("fetching m3u8...")
-    m3u8_link = m3u8_link[:m3u8_link.rfind('/')]+f"/index-f{args.quality}-v1-a1.m3u8" # this need to be fixed later, some show doesn't have format, only index-v1-a1.m3u8
+    #m3u8_link = m3u8_link[:m3u8_link.rfind('/')]+f"/index-f{args.quality}-v1-a1.m3u8" # this need to be fixed later, some show doesn't have format, only index-v1-a1.m3u8
+    m3u8_link = m3u8_link[:m3u8_link.rfind('/')+1]+b64.b64encode(bytes(f"index-f{args.quality}-v1-a1.m3u8",'utf-8')).decode("utf-8")+".m3u8"
     m3u8 = await async_fetch_http(m3u8_link)
     m3u8 = m3u8.decode()
 
@@ -199,7 +201,7 @@ async def main() -> None:
         return
 
     # delete local.m3u8 and segments after ffmpeg done merging (only if ffmpeg exited successfully)
-    for file in Path().glob("seg-*"):
+    for file in Path().glob("c2VnL*"):
         print("Deleting "+str(file))
         file.unlink()
     print("Deleting local.m3u8")
